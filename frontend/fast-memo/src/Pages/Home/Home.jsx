@@ -1,8 +1,12 @@
 import React from 'react'
+import Login from "../Login/Login"
+
 
 const Home = () => {
   return (
-    <div>Home</div>
+    <div>
+     Home
+    </div>
   )
 }
 

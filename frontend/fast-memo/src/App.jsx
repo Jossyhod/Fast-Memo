@@ -1,8 +1,8 @@
-import React from 'react'
-import {Browser as Router, Routes, Route} from "react-router-dom"
-import Home from './pages/Home/home';
-import Login from './pages/Login/login';
-import SignUp from './pages/SignUp/signup';
+import React from 'react';
+import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import Home from './Pages/Home/Home';
+import Login from "./Pages/Login/Login";
+import SignUp from "./Pages/SignUp/SignUp";
 
 const routes = (
   <Router>
@@ -16,9 +16,7 @@ const routes = (
 
 const App = () => {
   return (
-    <div>
-      {routes} 
-    </div>
+    <div>{routes}</div>
   )
 }
 
