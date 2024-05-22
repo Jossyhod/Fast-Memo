@@ -5,6 +5,7 @@ import PasswordInput from "../../Components/input/PasswordInput";
 import { validateEmail } from "../../utils/helper";
 
 const Login = () => {
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -23,7 +24,7 @@ const Login = () => {
     }
 
     setError("");
-    // Add your login logic here
+    //  Login Api Call 
   };
 
   return (
