@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Navbar from "../../Components/Navbar/Navbar";
+import { Link } from "react-router-dom";
 import PasswordInput from "../../Components/input/PasswordInput";
 import { validateEmail } from "../../utils/helper";
 
@@ -71,6 +72,15 @@ const SignUp = () => {
             >
               SignUp
             </button>
+            <p className="text-sm text-center mt-4">
+              Already have an account?{" "}
+              <Link
+                to="/login"
+                className="font-medium text-primary underline underline-offset-4"
+              >
+              Login
+              </Link>
+            </p>
           </form>
         </div>
       </div>

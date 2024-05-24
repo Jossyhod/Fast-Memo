@@ -8,7 +8,7 @@ const ProfileInfo = ({onLogout}) => {
             {getInitials("Joseph Ikeanyi")}</div>
         <div>
             <p className=" text-sm font-medium">Joseph Ikeanyi</p>
-            <button className="text-slate-800 underline text-sm" onClick= {onLogout}>Logout</button>
+            <button className="text-slate-800 underline underline-offset-4 text-sm" onClick= {onLogout}>Logout</button>
         </div>
       
     </div>
