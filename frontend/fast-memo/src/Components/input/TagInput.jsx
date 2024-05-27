@@ -32,7 +32,7 @@ const TagInput = ({ tags, setTags }) => {
           {tags.map((tag, index) => (
             <span
               key={index}
-              className="flex items-center gap-2 text-slate-900 bg-slate-100 px-3 py-1rounded"
+              className="flex items-center gap-2 text-slate-900 bg-slate-100 px-3 py-1 rounded"
             >
               # {tag}
               <button
@@ -50,6 +50,7 @@ const TagInput = ({ tags, setTags }) => {
       <div className="flex items-center gap-4 mt-3">
         <input
           type="text"
+          value={inputValue}
           className="text-sm bg-transparent border px-3 py-2 rounded-md outline-none"
           placeholder="Add tags"
           onChange={handleInputChange}
