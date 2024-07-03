@@ -5,7 +5,6 @@ import PasswordInput from "../../Components/input/PasswordInput";
 import { validateEmail } from "../../utils/helper";
 
 const SignUp = () => {
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,26 +13,24 @@ const SignUp = () => {
   const handleSignUp = async (e) => {
     e.preventDefault();
 
-    if(!name) {
-      setError("Please eneter your name");
+    if (!name) {
+      setError("Please enter your name");
       return;
     }
 
-    if(!validateEmail(email)) {
+    if (!validateEmail(email)) {
       setError("Please enter a valid email addres.");
       return;
     }
-    
-    if(!password) {
+
+    if (!password) {
       setError("Please enter the password");
       return;
     }
-    setError("")
+    setError("");
 
     //  SignUp Api Call
   };
-
-  
 
   return (
     <>
@@ -78,7 +75,7 @@ const SignUp = () => {
                 to="/login"
                 className="font-medium text-primary underline underline-offset-4"
               >
-              Login
+                Login
               </Link>
             </p>
           </form>
