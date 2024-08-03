@@ -19,14 +19,15 @@ const SignUp = () => {
     }
 
     if (!validateEmail(email)) {
-      setError("Please enter a valid email addres.");
+      setError("Please enter a valid email address.");
       return;
     }
 
     if (!password) {
-      setError("Please enter the password");
+      setError("Please enter a password");
       return;
     }
+
     setError("");
 
     //  SignUp Api Call
@@ -81,7 +82,6 @@ const SignUp = () => {
           </form>
         </div>
       </div>
-      .
     </>
   );
 };
