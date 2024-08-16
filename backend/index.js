@@ -30,7 +30,7 @@ app.get("/", (req, res) => {
   res.json({ data: "Hello" });
 });
 
-// Backend Ready
+// Backend Ready !!!
 
 // Create Account
 
@@ -71,7 +71,8 @@ app.post("/create-account", async (req, res) => {
 
     await user.save();
 
-    const accessToken = jwt.sign({ user }, process.env.ACCESS_TOKEN_SECRET, {
+    const payload = { sub: user._id };
+    const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
       expiresIn: "36000m",
     });
 
@@ -90,20 +91,18 @@ app.post("/create-account", async (req, res) => {
 // Get User
 
 app.get("/get-user", authenticateToken, async (req, res) => {
-  const user = req.user;
+  const user = await User.findOne({ _id: req.user.sub });
 
-  const isUser = await User.findOne({ _id: user._id });
-
-  if (!isUser) {
+  if (!user) {
     return res.sendStatus(401);
   }
 
   return res.json({
     user: {
-      fullName: isUser.fullName,
-      email: isUser.email,
-      _id: isUser._id,
-      createdOn: isUser.createdOn,
+      fullName: user.fullName,
+      email: user.email,
+      _id: user._id,
+      createdOn: user.createdOn,
     },
     message: "",
   });
@@ -127,8 +126,8 @@ app.post("/login", async (req, res) => {
   }
 
   if (userInfo.email === email && userInfo.password === password) {
-    const user = { user: userInfo };
-    const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+    const payload = { sub: userInfo._id };
+    const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
       expiresIn: "36000m",
     });
 
@@ -225,16 +224,17 @@ app.put("/edit-note/:noteId", authenticateToken, async (req, res) => {
 // Get all Notes
 
 app.get("/get-all-notes/", authenticateToken, async (req, res) => {
-  const { user } = req.user;
+  const userId = req.user.sub;
 
   try {
-    const note = await Note.find({ userId: user._id }).sort({ isPinned: -1 });
+    const note = await Note.find({ _id: userId }).sort({ isPinned: -1 });
 
     return res.json({
       error: false,
       message: " All notes retrieved successfully",
     });
   } catch (error) {
+    console.log("Error", error);
     return res.status(500).json({
       error: true,
       message: "Internal Server Error",

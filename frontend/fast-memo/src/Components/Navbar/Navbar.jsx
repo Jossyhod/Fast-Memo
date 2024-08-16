@@ -3,33 +3,35 @@ import ProfileInfo from "../Cards/ProfileInfo";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "../SearchBar/SearchBar";
 
-const Navbar = () => {
+const Navbar = ({ userInfo }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
+
   const onLogout = () => {
+    localStorage.clear();
     navigate("/login");
   };
 
-  const handleSearch = () => {};
+  const handleSearch = () => {
+    // Implement search logic here if needed
+    console.log("Searching for:", searchQuery);
+  };
 
   const onClearSearch = () => {
     setSearchQuery("");
   };
+
   return (
-    <>
-      <div className="bg-white flex items-center justify-between px-6 py-8 drop-shadow">
-        <h2 className="text-xl text-black font-medium py-2">Notes</h2>
-        <SearchBar
-          value={searchQuery}
-          onChange={({ target }) => {
-            setSearchQuery(target.value);
-          }}
-          handleSearch={handleSearch}
-          onClearSearch={onClearSearch}
-        />
-        <ProfileInfo onLogout={onLogout} />
-      </div>
-    </>
+    <div className="bg-white flex items-center justify-between px-6 py-8 drop-shadow">
+      <h2 className="text-xl text-black font-medium py-2">Notes</h2>
+      <SearchBar
+        value={searchQuery}
+        onChange={({ target }) => setSearchQuery(target.value)}
+        handleSearch={handleSearch}
+        onClearSearch={onClearSearch}
+      />
+      <ProfileInfo userInfo={userInfo} onLogout={onLogout} />
+    </div>
   );
 };
 

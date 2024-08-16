@@ -3,7 +3,7 @@ import Navbar from "../../Components/Navbar/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import PasswordInput from "../../Components/input/PasswordInput";
 import { validateEmail } from "../../utils/helper";
-import axiosinstance from "../../utils/axiosinstance";
+import axiosInstance from "../../utils/axiosinstance";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -27,22 +27,22 @@ const Login = () => {
 
     setError("");
 
+    // Login Api Call
+
     try {
-      const response = await axiosinstance.post("/login", {
-        email,
-        password,
-      });
+      console.log("Attempting to log in with:", { email, password });
+      const response = await axiosInstance.post("/login", { email, password });
+      console.log("Login response:", response);
 
       if (response.data && response.data.accessToken) {
         localStorage.setItem("token", response.data.accessToken);
         navigate("/dashboard");
+      } else {
+        setError("Login failed. No access token returned.");
       }
     } catch (error) {
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
-      ) {
+      console.error("Login error:", error);
+      if (error.response?.data?.message) {
         setError(error.response.data.message);
       } else {
         setError("An unexpected error occurred. Please try again.");
@@ -58,9 +58,9 @@ const Login = () => {
           <form onSubmit={handleLogin}>
             <h4 className="text-2xl mb-9 text-black">Login</h4>
             <input
-              type="text"
+              type="email"
               placeholder="Email"
-              className="input-box w-full text-small bg-transparent border-[1.5px] px-5 py-3 rounded mb-4"
+              className="input-box w-full text-sm bg-transparent border-[1.5px] px-5 py-3 rounded mb-4"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />

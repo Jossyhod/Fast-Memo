@@ -1,13 +1,16 @@
 const jwt = require("jsonwebtoken");
 
 function authenticateToken(req, res, next) {
-  const authHeader = req.headers["authorization"]; // Corrected to 'req.headers'
-  const token = authHeader && authHeader.split(" ")[1]; // Corrected the split method to split by space
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
 
   if (!token) return res.sendStatus(401);
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    console.log("Error", err);
     if (err) return res.sendStatus(401);
+    console.log("User", user);
+
     req.user = user;
     next();
   });

@@ -1,19 +1,21 @@
 import React, { useState } from "react";
 import Navbar from "../../Components/Navbar/Navbar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PasswordInput from "../../Components/input/PasswordInput";
 import { validateEmail } from "../../utils/helper";
+import axiosInstance from "../../utils/axiosinstance";
 
 const SignUp = () => {
-  const [name, setName] = useState("");
+  const [fullName, setFullName] = useState(""); // Changed from name to fullName to match usage
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
     e.preventDefault();
 
-    if (!name) {
+    if (!fullName) {
       setError("Please enter your name");
       return;
     }
@@ -30,7 +32,34 @@ const SignUp = () => {
 
     setError("");
 
-    //  SignUp Api Call
+    try {
+      console.log("Attempting to sign up with:", { fullName, email, password });
+      const response = await axiosInstance.post("/create-account", {
+        fullName,
+        email,
+        password,
+      });
+      console.log("Sign up response:", response);
+
+      // Handle Successful registration
+      if (response.data && response.data.error) {
+        setError(response.data.message);
+        return;
+      }
+
+      if (response.data && response.data.accessToken) {
+        localStorage.setItem("token", response.data.accessToken);
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      // Handle registration Error
+      console.error("Sign up error:", error);
+      if (error.response?.data?.message) {
+        setError(error.response.data.message);
+      } else {
+        setError("An unexpected error occurred. Please try again.");
+      }
+    }
   };
 
   return (
@@ -45,8 +74,8 @@ const SignUp = () => {
               type="text"
               placeholder="Name"
               className="input-box w-full text-small bg-transparent border-[1.5px] px-5 py-3 rounded mb-4"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={fullName} // Updated to fullName
+              onChange={(e) => setFullName(e.target.value)} // Updated to setFullName
             />
 
             <input
